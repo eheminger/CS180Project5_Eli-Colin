@@ -11,7 +11,9 @@ public class Drone extends Vehicle {
      * Default Contructor 
      */
     //============================================================================
-    //TODO
+    public Drone() {
+
+    }
     
     //============================================================================
 
@@ -22,7 +24,9 @@ public class Drone extends Vehicle {
      * @param maxWeight    maximum weight that the vehicle can hold
      */
     //============================================================================
-    //TODO
+    public Drone(String licensePlate, double maxWeight) {
+        super(licensePlate, maxWeight);
+    }
     
     //============================================================================
 
@@ -57,7 +61,19 @@ public class Drone extends Vehicle {
      */
     @Override
     public String report() {
-    	//TODO
+        String x = "==============Drone Report==========" +
+                "\nLicense Plate No.: " + getLicensePlate() +
+                "\nDestination: " + getZipDest() +
+                "\nWeight Load: " + getCurrentWeight() + "/" +
+                getMaxWeight() + "\nNet Profit: " + getProfit()
+                + "\n==============================\n";
+        String l  = "";
+        for(Package pack: getPackages()){
+            l += pack.shippingLabel();
+        }
+
+        return x + l;
+
     }
     
    

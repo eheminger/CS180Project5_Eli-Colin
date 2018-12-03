@@ -39,12 +39,13 @@ public class Vehicle implements Profitable {
 
 
     public double getProfit(){
-
+        return 1;
     }
 
 
     public String report(){
-
+        String x = "";
+        return x;
     }
     
     /**
@@ -218,7 +219,7 @@ public class Vehicle implements Profitable {
      * @param warehousePackages List of packages to add from
      */
     public void fill(ArrayList<Package> warehousePackages) {
-        //TODO
+
     }
 
     

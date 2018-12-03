@@ -1,9 +1,15 @@
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
+
+import java.io.*;
+import java.util.ArrayList;
+
 /**
  * <h1>Database Manager</h1>
  * 
  * Used to locally save and retrieve data.
  */
 public class DatabaseManager {
+
 
     /**
      * Creates an ArrayList of Vehicles from the passed CSV file. The values are in
@@ -19,7 +25,59 @@ public class DatabaseManager {
      * @return ArrayList of vehicles
      */
     public static ArrayList<Vehicle> loadVehicles(File file) {
-       //TODO
+        try {
+            ArrayList<Vehicle> loadVehicles = new ArrayList<>();
+            FileReader fr = new FileReader(file);
+            BufferedReader br = new BufferedReader(fr);
+
+            String l;
+            while ((l = br.readLine()) != null){
+                if(l.contains("Truck") == true){
+
+                    int index = l.indexOf(",");
+                    int index2 = l.indexOf(",", index);
+
+                    String license = l.substring(index, l.indexOf(",", index));
+                    double maxWeight = Double.parseDouble(l.substring(index2));
+                    Truck t = new Truck(license, maxWeight);
+
+                    loadVehicles.add(t);
+
+
+                } else if(l.contains("Drone") == true) {
+
+                    int index = l.indexOf(",");
+                    int index2 = l.indexOf(",", index);
+
+                    String license = l.substring(index, l.indexOf(",", index));
+                    double maxWeight = Double.parseDouble(l.substring(index2));
+                    Drone t = new Drone(license, maxWeight);
+                    loadVehicles.add(t);
+
+                } else if (l.contains("Cargo Plane")) {
+
+                    int index = l.indexOf(",");
+                    int index2 = l.indexOf(",", index);
+
+                    String license = l.substring(index, l.indexOf(",", index));
+                    double maxWeight = Double.parseDouble(l.substring(index2));
+                    CargoPlane t = new CargoPlane(license, maxWeight);
+                    loadVehicles.add(t);
+
+
+                }
+
+            }
+            br.close();
+            fr.close();
+            return loadVehicles;
+
+
+
+        } catch (IOException e){
+            ArrayList<Vehicle> loadVehicles = new ArrayList<>();
+            return loadVehicles;
+        }
     }
 
     
@@ -47,7 +105,50 @@ public class DatabaseManager {
      * @return ArrayList of packages
      */
     public static ArrayList<Package> loadPackages(File file) {
-    	//TODO
+        try {
+            ArrayList<Package> loadPackages = new ArrayList<>();
+            FileReader fr = new FileReader(file);
+            BufferedReader br = new BufferedReader(fr);
+
+            String l;
+            while ((l = br.readLine()) != null){
+                    int index = l.indexOf(",");
+                    int index2 = l.indexOf(",", index);
+                    int index3 = l.indexOf(",", index2);
+                    int index4 = l.indexOf(",", index3);
+                    int index5 = l.indexOf(",", index4);
+                    int index6 = l.indexOf(",", index5);
+                    int index7 = l.indexOf(",", index6);
+                    int index8 = l.indexOf(",", index7);
+                    int index9 = l.indexOf(",", index8);
+
+
+                String id = l.substring(index, index2);
+                    String name = l.substring(index2, index3);
+                    double weight = Double.parseDouble(l.substring(index3, index4));
+                    double price = Double.parseDouble(l.substring(index4, index5));
+                    String adname = l.substring(index5, index6);
+                    String address = l.substring(index6, index7);
+                    String city = l.substring(index7, index8);
+                    String state = l.substring(index8, index9);
+                    int zipcode = Integer.parseInt(l.substring(index9));
+
+                    ShippingAddress ship = new ShippingAddress(adname, address, city, state, zipcode);
+                    Package t = new Package(id, name, weight, price, ship);
+
+                    loadPackages.add(t);
+            }
+
+            br.close();
+            fr.close();
+            return loadPackages;
+
+
+
+        } catch (IOException e){
+            ArrayList<Package> loadPackage = new ArrayList<>();
+            return loadPackage;
+        }
     }
     
     
@@ -112,7 +213,32 @@ public class DatabaseManager {
      * @param vehicles ArrayList of vehicles to save to file
      */
     public static void saveVehicles(File file, ArrayList<Vehicle> vehicles) {
-    	//TODO
+        try {
+            FileWriter fw = new FileWriter(file, false);
+            String z;
+            for(Vehicle veh : vehicles) {
+                String x = "";
+                if(veh instanceof CargoPlane == true){
+                    x += "Cargo Plane,";
+                }
+                if(veh instanceof Drone == true){
+                    x += "Drone,";
+                }
+                if(veh instanceof Truck == true){
+                    x += "Truck,";
+                }
+                x += veh.getLicensePlate();
+                x += veh.getMaxWeight();
+
+                fw.write(x);
+
+
+            }
+
+
+        } catch (IOException e){
+
+        }
     }
 
     
@@ -137,7 +263,7 @@ public class DatabaseManager {
      * @param packages ArrayList of packages to save to file
      */
     public static void savePackages(File file, ArrayList<Package> packages) {
-    	//TODO
+
     }
 
     

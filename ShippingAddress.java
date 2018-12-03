@@ -2,11 +2,11 @@
  * <h1>Shipping Address</h1> Represents a shipping address
  */
 public class ShippingAddress {
-	private String name;
-	private String address;
-	private String city;
-	private String state;
-	private int zipCode;
+    private String name;
+    private String address;
+    private String city;
+    private String state;
+    private int zipCode;
 
     /**
      * Default constructor

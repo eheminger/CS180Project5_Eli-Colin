@@ -1,3 +1,5 @@
+import sun.awt.geom.AreaOp;
+
 import java.util.ArrayList;
 
 
@@ -11,8 +13,9 @@ public class CargoPlane extends Vehicle {
      * Default Constructor
      */
     //============================================================================
-    //TODO
-    
+    public CargoPlane() {
+
+    }
     //============================================================================
 
     /**
@@ -22,7 +25,9 @@ public class CargoPlane extends Vehicle {
      * @param maxWeight    maximum weight that the vehicle can hold
      */
     //============================================================================
-    //TODO
+    public CargoPlane(String licensePlate, double maxWeight) {
+        super(licensePlate, maxWeight);
+    }
     
     //============================================================================
 
@@ -52,7 +57,6 @@ public class CargoPlane extends Vehicle {
      */
     @Override
     public double getProfit() {
-    	//TODO
         
     }
 
@@ -70,10 +74,173 @@ public class CargoPlane extends Vehicle {
      */
     @Override
     public String report() {
-    	//TODO
-       
+        String x = "==============Cargo Plane Report==========" +
+                "\nLicense Plate No.: " + getLicensePlate() +
+                "\nDestination: " + getZipDest() +
+                "\nWeight Load: " + getCurrentWeight() + "/" +
+                getMaxWeight() + "\nNet Profit: " + getProfit()
+                + "\n==============================\n";
+        String l  = "";
+        for(Package pack: getPackages()){
+            l += pack.shippingLabel();
+        }
+
+        return x + l;
+
     }
 
    
    
 }
+
+//==========Options==========
+//1) Add Package
+//2) Add Vehicle
+//3) Activate Prime Day
+//4) Send Vehicle
+//5) Print Statistics
+//6) Exit
+//===========================
+//1
+//
+//Enter Package ID:
+//17FGPO8MK4
+//Enter Product Name:
+//Echo Dot
+//Enter Weight:
+//5.7
+//Enter Price:
+//49.99
+//Enter Buyer Name:
+//Lawson Computer Science Building
+//Enter Address:
+//304 N University St
+//Enter City:
+//West Lafayette
+//Enter State:
+//IN
+//Enter ZIP Code:
+//47906
+//
+//====================
+//TO: Lawson Computer Science Building
+//304 N University St
+//West Lafayette, IN, 47906
+//Weight:         5.70
+//Price:        $49.99
+//Product:Echo Dot
+//====================
+//
+//==========Options==========
+//1) Add Package
+//2) Add Vehicle
+//3) Activate Prime Day
+//4) Send Vehicle
+//5) Print Statistics
+//6) Exit
+//===========================
+//2
+//
+//Vehicle Options:
+//1) Truck
+//2) Drone
+//3) Cargo Plane
+//1
+//Enter License Plate No.:
+//123ABC
+//Enter Maximum Carry Weight:
+//40
+//==========Options==========
+//1) Add Package
+//2) Add Vehicle
+//3) Activate Prime Day
+//4) Send Vehicle
+//5) Print Statistics
+//6) Exit
+//===========================
+//3
+//
+//==========Options==========
+//1) Add Package
+//2) Add Vehicle
+//3) Deactivate Prime Day
+//4) Send Vehicle
+//5) Print Statistics
+//6) Exit
+//===========================
+//3
+//
+//==========Options==========
+//1) Add Package
+//2) Add Vehicle
+//3) Activate Prime Day
+//4) Send Vehicle
+//5) Print Statistics
+//6) Exit
+//===========================
+//4
+//
+//Options:
+//1) Send Truck
+//2) Send Drone
+//3) Send Cargo Plane
+//4) Send First Available
+//1
+//ZIP Code Options:
+//1) Send to first ZIP Code
+//2) Send to mode of ZIP Codes
+//1
+//17FGPO8MK4 has been added.
+//==========Truck Report==========
+//License Plate No.: 123ABC
+//Destination: 47906
+//Weight Load: 5.70/40.00
+//Net Profit: $49.99
+//=====Shipping Labels=====
+//====================
+//TO: Lawson Computer Science Building
+//304 N University St
+//West Lafayette, IN, 47906
+//Weight:         5.70
+//Price:        $49.99
+//Product:Echo Dot
+//====================
+//==============================
+//
+//==========Options==========
+//1) Add Package
+//2) Add Vehicle
+//3) Activate Prime Day
+//4) Send Vehicle
+//5) Print Statistics
+//6) Exit
+//===========================
+//4
+//
+//Error: No vehicles available.
+//
+//==========Options==========
+//1) Add Package
+//2) Add Vehicle
+//3) Activate Prime Day
+//4) Send Vehicle
+//5) Print Statistics
+//6) Exit
+//===========================
+//5
+//
+//==========Statistics==========
+//Profits:                    $49.99
+//Packages Shipped:                1
+//Packages in Warehouse:           0
+//==============================
+//
+//==========Options==========
+//1) Add Package
+//2) Add Vehicle
+//3) Activate Prime Day
+//4) Send Vehicle
+//5) Print Statistics
+//6) Exit
+//===========================
+//6
