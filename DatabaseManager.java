@@ -193,7 +193,25 @@ public class DatabaseManager {
      * @return whether or not it is prime day
      */
     public static boolean loadPrimeDay(File file) {
-    	//TODO
+
+        try{
+            FileReader fr = new FileReader(file);
+            BufferedReader br = new BufferedReader(fr);
+
+            String x;
+            while ((x = br.readLine()) != null){
+                if(x.contains("1") == true){
+                    return true;
+                } else {
+                    return false;
+                }
+
+            }
+
+
+        } catch (IOException e){
+            return false;
+        }
     }
 
     
@@ -215,7 +233,6 @@ public class DatabaseManager {
     public static void saveVehicles(File file, ArrayList<Vehicle> vehicles) {
         try {
             FileWriter fw = new FileWriter(file, false);
-            String z;
             for(Vehicle veh : vehicles) {
                 String x = "";
                 if(veh instanceof CargoPlane == true){
@@ -227,7 +244,7 @@ public class DatabaseManager {
                 if(veh instanceof Truck == true){
                     x += "Truck,";
                 }
-                x += veh.getLicensePlate();
+                x += veh.getLicensePlate() + ",";
                 x += veh.getMaxWeight();
 
                 fw.write(x);
@@ -263,7 +280,30 @@ public class DatabaseManager {
      * @param packages ArrayList of packages to save to file
      */
     public static void savePackages(File file, ArrayList<Package> packages) {
+        try {
+            FileWriter fw = new FileWriter(file, false);
+            for(Package pack : packages) {
+                String x = "";
+                x += pack.getID() + ",";
+                x += pack.getProduct() + ",";
+                x += pack.getWeight() + ",";
+                x += pack.getPrice() + ",";
+                x += pack.getDestination().getName() + ",";
+                x += pack.getDestination().getAddress() + ",";
+                x += pack.getDestination().getCity() + ",";
+                x += pack.getDestination().getState() + ",";
+                x += pack.getDestination().getZipCode();
 
+
+                fw.write(x);
+
+
+            }
+
+
+        } catch (IOException e){
+
+        }
     }
 
     
@@ -309,6 +349,17 @@ public class DatabaseManager {
      */
 
     public static void savePrimeDay(File file, boolean primeDay) {
-    	//TODO
+        try {
+            FileWriter fw = new FileWriter(file, false);
+            if(primeDay = true) {
+                fw.write(1);
+            } else {
+                fw.write(0);
+            }
+
+
+        } catch (IOException e){
+
+        }
     }
 }
