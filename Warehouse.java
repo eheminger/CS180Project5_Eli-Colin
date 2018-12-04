@@ -8,7 +8,7 @@ import java.util.Scanner;
  */
 
 public class Warehouse {
-	final static String folderPath = "files/";
+    final static String folderPath = "files/";
     final static File VEHICLE_FILE = new File(folderPath + "VehicleList.csv");
     final static File PACKAGE_FILE = new File(folderPath + "PackageList.csv");
     final static File PROFIT_FILE = new File(folderPath + "Profit.txt");
@@ -18,15 +18,15 @@ public class Warehouse {
 
     /**
      * Main Method
-     * 
+     *
      * @param args list of command line arguements
      */
     public static void main(String[] args) {
-    	//TODO
+        //TODO
         Scanner s = new Scanner(System.in);
         String divider = "================";
-    	
-    	//1) load data (vehicle, packages, profits, packages shipped and primeday) from files using DatabaseManager
+
+        //1) load data (vehicle, packages, profits, packages shipped and primeday) from files using DatabaseManager
         ArrayList<Vehicle> vehicles;
         ArrayList<Package> packages;
         double profit;
@@ -39,9 +39,9 @@ public class Warehouse {
         } else {
             primeString = "Activate Prime Day";
         }
-    	
-    	//2) Show menu and handle user inputs
-    	while (true) {
+
+        //2) Show menu and handle user inputs
+        while (true) {
 
             System.out.println("========Options=========" +
                     "\n1) Add Package" +
@@ -145,11 +145,11 @@ public class Warehouse {
 
             }
         }
-    	
-    	
-    	//3) save data (vehicle, packages, profits, packages shipped and primeday) to files (overwriting them) using DatabaseManager
-    	
-    
+
+
+        //3) save data (vehicle, packages, profits, packages shipped and primeday) to files (overwriting them) using DatabaseManager
+
+
     }
 
 

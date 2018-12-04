@@ -39,7 +39,7 @@ public class CargoPlane extends Vehicle {
      */
     @Override
     public void fill(ArrayList<Package> warehousePackages) {
-    	//TODO
+
         
     }
 
@@ -57,7 +57,19 @@ public class CargoPlane extends Vehicle {
      */
     @Override
     public double getProfit() {
-        
+        int x = 0;
+        int distance = getZipDest();
+
+        for(Package pack : getPackages()) {
+            x += pack.getPrice();
+            int zip = getZipDest() - pack.getDestination().getZipCode();
+            if(distance < Math.abs(zip)){
+                distance = Math.abs(zip);
+            }
+        }
+
+        return x - (GAS_RATE * distance);
+
     }
 
     /**
