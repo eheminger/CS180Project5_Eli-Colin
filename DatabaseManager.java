@@ -164,7 +164,17 @@ public class DatabaseManager {
      * @return profits from file
      */
     public static double loadProfit(File file) {
-    	//TODO
+        try{
+            FileReader fr = new FileReader(file);
+            BufferedReader br = new BufferedReader(fr);
+            String x;
+            x = br.readLine();
+            fr.close();
+            br.close();
+            return Double.parseDouble(x);
+        } catch (IOException e){
+            return 0;
+        }
     }
 
     
@@ -179,7 +189,17 @@ public class DatabaseManager {
      * @return number of packages shipped from file
      */
     public static int loadPackagesShipped(File file) {
-    	//TODO
+        try{
+            FileReader fr = new FileReader(file);
+            BufferedReader br = new BufferedReader(fr);
+            String x;
+            x = br.readLine();
+            fr.close();
+            br.close();
+            return Integer.parseInt(x);
+        } catch (IOException e){
+            return 0;
+        }
     }
 
     
@@ -201,12 +221,16 @@ public class DatabaseManager {
             String x;
             while ((x = br.readLine()) != null){
                 if(x.contains("1") == true){
+                    fr.close();
+                    br.close();
                     return true;
-                } else {
-                    return false;
                 }
 
             }
+            fr.close();
+            br.close();
+            return false;
+
 
 
         } catch (IOException e){
@@ -317,7 +341,13 @@ public class DatabaseManager {
      */
 
     public static void saveProfit(File file, double profit) {
-    	//TODO
+        try {
+            FileWriter fw = new FileWriter(file, false);
+            String x = "" + profit;
+            fw.write(x);
+        } catch (IOException e){
+
+        }
     }
 
     
@@ -332,7 +362,13 @@ public class DatabaseManager {
      */
 
     public static void savePackagesShipped(File file, int nPackages) {
-    	//TODO
+        try {
+            FileWriter fw = new FileWriter(file, false);
+            String x = "" + nPackages;
+            fw.write(x);
+        } catch (IOException e){
+
+        }
     }
 
     
