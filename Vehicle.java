@@ -220,6 +220,47 @@ public class Vehicle implements Profitable {
      */
     public void fill(ArrayList<Package> warehousePackages) {
 
+        int range = zipDest;
+        int range2 = zipDest;
+
+        for (Package pack : warehousePackages) {
+            if (pack.getDestination().getZipCode() == range) {
+                if(pack.getWeight() + currentWeight <= maxWeight){
+                    addPackage(pack);
+                    warehousePackages.remove(pack);
+                    currentWeight += pack.getWeight();
+                }
+            }
+        }
+        range -= 1;
+        range2 += 1;
+
+        while (isFull() == false) {
+            for (Package pack : warehousePackages) {
+                if (pack.getDestination().getZipCode() == range) {
+                    if (pack.getWeight() + currentWeight <= maxWeight) {
+                        addPackage(pack);
+                        warehousePackages.remove(pack);
+                        currentWeight += pack.getWeight();
+                    }
+                }
+            }
+            for (Package pack : warehousePackages) {
+                if (pack.getDestination().getZipCode() == range2) {
+                    if (pack.getWeight() + currentWeight <= maxWeight) {
+                        addPackage(pack);
+                        warehousePackages.remove(pack);
+                        currentWeight += pack.getWeight();
+                    }
+                }
+            }
+            range -= 1;
+            range2 += 1;
+        }
+
+
+
+
     }
 
     

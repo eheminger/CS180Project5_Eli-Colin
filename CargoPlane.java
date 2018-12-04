@@ -40,6 +40,44 @@ public class CargoPlane extends Vehicle {
     @Override
     public void fill(ArrayList<Package> warehousePackages) {
 
+        int range = getZipDest();
+        int range2 = getZipDest();
+        double current = getCurrentWeight();
+
+        for (Package pack : warehousePackages) {
+            if (pack.getDestination().getZipCode() == range) {
+                if(pack.getWeight() + current <= getMaxWeight()){
+                    addPackage(pack);
+                    warehousePackages.remove(pack);
+                    current += pack.getWeight();
+                }
+            }
+        }
+        range -= 10;
+        range2 += 10;
+
+        while (isFull() == false) {
+            for (Package pack : warehousePackages) {
+                if (pack.getDestination().getZipCode() == range) {
+                    if (pack.getWeight() + current <= getMaxWeight()) {
+                        addPackage(pack);
+                        warehousePackages.remove(pack);
+                        current += pack.getWeight();
+                    }
+                }
+            }
+            for (Package pack : warehousePackages) {
+                if (pack.getDestination().getZipCode() == range2) {
+                    if (pack.getWeight() + current <= getMaxWeight()) {
+                        addPackage(pack);
+                        warehousePackages.remove(pack);
+                        current += pack.getWeight();
+                    }
+                }
+            }
+            range -= 10;
+            range2 += 10;
+        }
         
     }
 
