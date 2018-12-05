@@ -15,7 +15,6 @@ public class Warehouse {
     final static File N_PACKAGES_FILE = new File(folderPath + "NumberOfPackages.txt");
     final static File PRIME_DAY_FILE = new File(folderPath + "PrimeDay.txt");
     final static double PRIME_DAY_DISCOUNT = .15;
-
     /**
      * The loadVehicle method.
      * The method searches for a vehicle of the specified type that is not full, and returns it.
@@ -61,7 +60,6 @@ public class Warehouse {
         System.out.printf("Packages Shipped: %16d%n", numPackagesShipped);
         System.out.printf("Packages in Warehouse: %11d%n", numPackagesInWarehouse);
     }
-
     /**
      * Main Method
      * 
@@ -290,7 +288,8 @@ public class Warehouse {
                                     d.setZipDest(packages.get(0).getDestination().getZipCode());
                                     d.fill(packages);
                                     profit += d.getProfit();
-                                    packagesShipped += d.getPackages().size();
+                                    packagesShipped += d.getPackages().s
+                 
                                     vehicles.remove(d);
                                     break;
                                 //Send to mode zip code
