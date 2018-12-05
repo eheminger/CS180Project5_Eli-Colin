@@ -15,9 +15,9 @@ public class Warehouse {
     final static File N_PACKAGES_FILE = new File(folderPath + "NumberOfPackages.txt");
     final static File PRIME_DAY_FILE = new File(folderPath + "PrimeDay.txt");
     final static double PRIME_DAY_DISCOUNT = .15;
-    private double profits = 0;
-    private double packagesShipped = 0;
-    private double numPackages = 0;
+    private static double profits = 0;
+    private static double packagesShipped = 0;
+    private static double numPackages = 0;
 
     /**
      * Main Method
@@ -66,12 +66,11 @@ public class Warehouse {
                             String id = s.nextLine();
                             System.out.println("Enter Product Name:");
                             String productName = s.nextLine();
-                            s.next();
                             System.out.println("Enter Weight:");
                             double weight = s.nextDouble();
                             System.out.println("Enter Price:");
                             double price = s.nextDouble();
-                            s.next();
+                            s.nextLine();
                             System.out.println("Enter Buyer Name:");
                             String buyerName = s.nextLine();
                             System.out.println("Enter Address:");
@@ -80,10 +79,9 @@ public class Warehouse {
                             String city = s.nextLine();
                             System.out.println("Enter State:");
                             String state = s.nextLine();
-                            s.next();
                             System.out.println("Enter ZIP Code:");
                             int zipCode = s.nextInt();
-                            s.next();
+                            s.nextLine();
                             Package p = new Package(id, productName, weight, price,
                                     new ShippingAddress(buyerName, address, city, state, zipCode));
                             packages.add(p);
@@ -115,7 +113,7 @@ public class Warehouse {
                             s.next();
                             System.out.println("Enter Maximum Carry Weight:");
                             int carryWeight = s.nextInt();
-                            s.next();
+                            s.nextLine();
                             Vehicle v;
                             switch (intR) {
                                 case 1:
@@ -247,8 +245,10 @@ public class Warehouse {
                                 case "1":
                                     d.setZipDest(packages.get(0).getDestination().getZipCode());
                                     d.fill(packages);
-                                    profit = d.getProfit();
-
+                                    profits = d.getProfit();
+                                    numPackages = packages.size();
+                                    packagesShipped = d.getPackages().size();
+                                    vehicles.remove(d);
                                     break;
                                 //Send to mode zip code
                                 case "2":
@@ -270,7 +270,6 @@ public class Warehouse {
                     return;
                 default:
                     System.out.println("Error: Option not available.");
-
             }
         }
     	
