@@ -15,9 +15,52 @@ public class Warehouse {
     final static File N_PACKAGES_FILE = new File(folderPath + "NumberOfPackages.txt");
     final static File PRIME_DAY_FILE = new File(folderPath + "PrimeDay.txt");
     final static double PRIME_DAY_DISCOUNT = .15;
-    private double profits = 0;
-    private double packagesShipped = 0;
-    private double numPackages = 0;
+
+    /**
+     * The loadVehicle method.
+     * The method searches for a vehicle of the specified type that is not full, and returns it.
+     * If there are no vehicles of the specified type, it will return null.
+     * You can specify either a Truck, Drone, or CargoPlane subclass.
+     * If anything else is entered, it will search for the first, non-full vehicle in the array list and return it.
+     * @param className the String name of vehicle subclass.
+     * @param vehicles the array list of vehicle that will be searched.
+     * @return the non-full vehicle of the specified type.
+     */
+    public Vehicle loadVehicle(String className, ArrayList<Vehicle> vehicles) {
+        for (Vehicle temp: vehicles) {
+            switch (className) {
+                case "Truck":
+                    if (temp instanceof Truck && !temp.isFull()) {
+                        return temp;
+                    }
+                    break;
+                case "Drone":
+                    if (temp instanceof Drone && !temp.isFull()) {
+                        return temp;
+                    }
+                    break;
+                case "CargoPlane":
+                    if (temp instanceof CargoPlane && !temp.isFull()) {
+                        return temp;
+                    }
+                    break;
+                default:
+                    if (!temp.isFull()) {
+                        return temp;
+                    }
+                    break;
+            }
+        }
+        return null;
+    }
+
+
+    public static void printStatisticsReport(double numProfits, int numPackagesShipped, int numPackagesInWarehouse) {
+        System.out.println("==========Statistics==========");
+        System.out.printf("Profits: %25s%n", "$" + String.format("%.2f", numProfits));
+        System.out.printf("Packages Shipped: %16d%n", numPackagesShipped);
+        System.out.printf("Packages in Warehouse: %11d%n", numPackagesInWarehouse);
+    }
 
     /**
      * Main Method
@@ -25,10 +68,11 @@ public class Warehouse {
      * @param args list of command line arguements
      */
     public static void main(String[] args) {
+
+        printStatisticsReport(1000.00, 50, 6);
     	//TODO
         Scanner s = new Scanner(System.in);
         String divider = "================";
-    	
     	//1) load data (vehicle, packages, profits, packages shipped and primeday) from files using DatabaseManager
         ArrayList<Vehicle> vehicles = DatabaseManager.loadVehicles(VEHICLE_FILE);
         ArrayList<Package> packages = DatabaseManager.loadPackages(PACKAGE_FILE);
@@ -66,12 +110,11 @@ public class Warehouse {
                             String id = s.nextLine();
                             System.out.println("Enter Product Name:");
                             String productName = s.nextLine();
-                            s.next();
                             System.out.println("Enter Weight:");
                             double weight = s.nextDouble();
                             System.out.println("Enter Price:");
                             double price = s.nextDouble();
-                            s.next();
+                            s.nextLine();
                             System.out.println("Enter Buyer Name:");
                             String buyerName = s.nextLine();
                             System.out.println("Enter Address:");
@@ -80,10 +123,9 @@ public class Warehouse {
                             String city = s.nextLine();
                             System.out.println("Enter State:");
                             String state = s.nextLine();
-                            s.next();
                             System.out.println("Enter ZIP Code:");
                             int zipCode = s.nextInt();
-                            s.next();
+                            s.nextLine();
                             Package p = new Package(id, productName, weight, price,
                                     new ShippingAddress(buyerName, address, city, state, zipCode));
                             packages.add(p);
@@ -115,7 +157,7 @@ public class Warehouse {
                             s.next();
                             System.out.println("Enter Maximum Carry Weight:");
                             int carryWeight = s.nextInt();
-                            s.next();
+                            s.nextLine();
                             Vehicle v;
                             switch (intR) {
                                 case 1:
@@ -247,11 +289,13 @@ public class Warehouse {
                                 case "1":
                                     d.setZipDest(packages.get(0).getDestination().getZipCode());
                                     d.fill(packages);
-                                    profit = d.getProfit();
-
+                                    profit += d.getProfit();
+                                    packagesShipped += d.getPackages().size();
+                                    vehicles.remove(d);
                                     break;
                                 //Send to mode zip code
                                 case "2":
+
                                     break;
                                 default:
                                     System.out.println("Error Option not available.");
@@ -270,11 +314,10 @@ public class Warehouse {
                     return;
                 default:
                     System.out.println("Error: Option not available.");
-
             }
         }
     	
-    	
+    
     	//3) save data (vehicle, packages, profits, packages shipped and primeday) to files (overwriting them) using DatabaseManager
     	
     
