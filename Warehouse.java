@@ -288,7 +288,7 @@ public class Warehouse {
                                     d.setZipDest(packages.get(0).getDestination().getZipCode());
                                     d.fill(packages);
                                     profit += d.getProfit();
-                                    packagesShipped += d.getPackages().s
+                                    packagesShipped += d.getPackages().size();
                  
                                     vehicles.remove(d);
                                     break;
