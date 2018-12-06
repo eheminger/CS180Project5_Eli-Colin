@@ -256,7 +256,8 @@ public class DatabaseManager {
      */
     public static void saveVehicles(File file, ArrayList<Vehicle> vehicles) {
         try {
-            FileWriter fw = new FileWriter(file, false);
+            FileWriter fw = new FileWriter(file);
+            BufferedWriter bw = new BufferedWriter(fw);
             for(Vehicle veh : vehicles) {
                 String x = "";
                 if(veh instanceof CargoPlane == true){
@@ -271,7 +272,9 @@ public class DatabaseManager {
                 x += veh.getLicensePlate() + ",";
                 x += veh.getMaxWeight();
 
-                fw.write(x);
+                bw.write(x);
+                bw.close();
+
 
 
             }
@@ -305,7 +308,8 @@ public class DatabaseManager {
      */
     public static void savePackages(File file, ArrayList<Package> packages) {
         try {
-            FileWriter fw = new FileWriter(file, false);
+            FileWriter fw = new FileWriter(file);
+            BufferedWriter bw = new BufferedWriter(fw);
             for(Package pack : packages) {
                 String x = "";
                 x += pack.getID() + ",";
@@ -318,8 +322,9 @@ public class DatabaseManager {
                 x += pack.getDestination().getState() + ",";
                 x += pack.getDestination().getZipCode();
 
+                bw.write(x);
+                bw.close();
 
-                fw.write(x);
 
 
             }
@@ -342,9 +347,13 @@ public class DatabaseManager {
 
     public static void saveProfit(File file, double profit) {
         try {
-            FileWriter fw = new FileWriter(file, false);
+
+            FileWriter fw = new FileWriter(file);
+            BufferedWriter bw = new BufferedWriter(fw);
             String x = "" + profit;
-            fw.write(x);
+            bw.write(x);
+            bw.close();
+
         } catch (IOException e){
 
         }
@@ -363,9 +372,12 @@ public class DatabaseManager {
 
     public static void savePackagesShipped(File file, int nPackages) {
         try {
-            FileWriter fw = new FileWriter(file, false);
+            FileWriter fw = new FileWriter(file);
+            BufferedWriter bw = new BufferedWriter(fw);
             String x = "" + nPackages;
-            fw.write(x);
+
+            bw.write(x);
+            bw.close();
         } catch (IOException e){
 
         }
@@ -386,11 +398,14 @@ public class DatabaseManager {
 
     public static void savePrimeDay(File file, boolean primeDay) {
         try {
-            FileWriter fw = new FileWriter(file, false);
+            FileWriter fw = new FileWriter(file);
+            BufferedWriter bw = new BufferedWriter(fw);
             if(primeDay = true) {
-                fw.write(1);
+                bw.write(1);
+                bw.close();
             } else {
-                fw.write(0);
+                bw.write(2);
+                bw.close();
             }
 
 

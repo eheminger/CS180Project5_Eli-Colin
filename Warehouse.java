@@ -288,7 +288,7 @@ public class Warehouse {
                                     d.setZipDest(packages.get(0).getDestination().getZipCode());
                                     d.fill(packages);
                                     profit += d.getProfit();
-                                    packagesShipped += d.getPackages().s
+                                    packagesShipped += d.getPackages().size();
                  
                                     vehicles.remove(d);
                                     break;
@@ -310,6 +310,7 @@ public class Warehouse {
                     break;
                 //Exit Program
                 case "6":
+                    DatabaseManager.saveProfit(PROFIT_FILE, profit + 1);
                     return;
                 default:
                     System.out.println("Error: Option not available.");
