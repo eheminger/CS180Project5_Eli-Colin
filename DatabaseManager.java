@@ -30,11 +30,10 @@ public class DatabaseManager {
 
             String l;
             while ((l = br.readLine()) != null){
-                if(l.contains("Truck") == true){
-                    
+                if(l.contains("Truck")){
 
-                    int index = l.indexOf(",");
-                    int index2 = l.indexOf(",", index);
+                    int index = l.indexOf(",") + 1;
+                    int index2 = l.indexOf(",", index) + 1;
 
                     String license = l.substring(index, l.indexOf(",", index));
                     double maxWeight = Double.parseDouble(l.substring(index2));
@@ -43,10 +42,10 @@ public class DatabaseManager {
                     loadVehicles.add(t);
 
 
-                } else if(l.contains("Drone") == true) {
+                } else if(l.contains("Drone")) {
 
-                    int index = l.indexOf(",");
-                    int index2 = l.indexOf(",", index);
+                    int index = l.indexOf(",") + 1;
+                    int index2 = l.indexOf(",", index) + 1;
 
                     String license = l.substring(index, l.indexOf(",", index));
                     double maxWeight = Double.parseDouble(l.substring(index2));
@@ -111,26 +110,25 @@ public class DatabaseManager {
 
             String l;
             while ((l = br.readLine()) != null){
-                    int index = l.indexOf(",");
-                    int index2 = l.indexOf(",", index);
-                    int index3 = l.indexOf(",", index2);
-                    int index4 = l.indexOf(",", index3);
-                    int index5 = l.indexOf(",", index4);
-                    int index6 = l.indexOf(",", index5);
-                    int index7 = l.indexOf(",", index6);
-                    int index8 = l.indexOf(",", index7);
-                    int index9 = l.indexOf(",", index8);
+                    int index = l.indexOf(",") + 1;
+                    int index2 = l.indexOf(",", index) + 1;
+                    int index3 = l.indexOf(",", index2) + 1;
+                    int index4 = l.indexOf(",", index3) + 1;
+                    int index5 = l.indexOf(",", index4) + 1;
+                    int index6 = l.indexOf(",", index5) + 1;
+                    int index7 = l.indexOf(",", index6) + 1;
+                    int index8 = l.indexOf(",", index7) + 1;
 
 
-                String id = l.substring(index, index2);
-                    String name = l.substring(index2, index3);
-                    double weight = Double.parseDouble(l.substring(index3, index4));
-                    double price = Double.parseDouble(l.substring(index4, index5));
-                    String adname = l.substring(index5, index6);
-                    String address = l.substring(index6, index7);
-                    String city = l.substring(index7, index8);
-                    String state = l.substring(index8, index9);
-                    int zipcode = Integer.parseInt(l.substring(index9));
+                String id = l.substring(0, index);
+                    String name = l.substring(index, index2 - 1);
+                    double weight = Double.parseDouble(l.substring(index2, index3 - 1));
+                    double price = Double.parseDouble(l.substring(index3, index4 - 1));
+                    String adname = l.substring(index4, index5 - 1);
+                    String address = l.substring(index5, index6 - 1);
+                    String city = l.substring(index6, index7 - 1);
+                    String state = l.substring(index7, index8 - 1);
+                    int zipcode = Integer.parseInt(l.substring(index8));
 
                     ShippingAddress ship = new ShippingAddress(adname, address, city, state, zipcode);
                     Package t = new Package(id, name, weight, price, ship);
@@ -346,24 +344,11 @@ public class DatabaseManager {
 
     public static void saveProfit(File file, double profit) {
         try {
-            String oldFileName = file.getName();
-            String tmpFileName = "tmp_try.txt";
 
-           // System.out.println(file.getAbsolutePath());
-            File outfile = new File(file.getName());
-
-            FileWriter fw = new FileWriter(outfile);
+            FileWriter fw = new FileWriter(file);
             BufferedWriter bw = new BufferedWriter(fw);
             String x = "" + profit;
             bw.write(x);
-
-            //file.delete();
-
-            // And rename tmp file's name to old file name
-           // File newFile = new File(tmpFileName);
-            //newFile.renameTo(new File(oldFileName));
-
-            fw.close();
             bw.close();
 
         } catch (IOException e){
@@ -390,7 +375,6 @@ public class DatabaseManager {
 
             bw.write(x);
             bw.close();
-            fw.close();
         } catch (IOException e){
 
         }
@@ -416,11 +400,9 @@ public class DatabaseManager {
             if(primeDay = true) {
                 bw.write(1);
                 bw.close();
-                fw.close();
             } else {
                 bw.write(2);
                 bw.close();
-                fw.close();
             }
 
 
