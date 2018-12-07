@@ -68,7 +68,9 @@ public class Warehouse {
     public static void main(String[] args) {
 
         printStatisticsReport(1000.00, 50, 6);
-    	//TODO
+
+
+
         Scanner s = new Scanner(System.in);
         String divider = "================";
     	//1) load data (vehicle, packages, profits, packages shipped and primeday) from files using DatabaseManager
@@ -78,6 +80,7 @@ public class Warehouse {
         int packagesShipped = DatabaseManager.loadPackagesShipped(N_PACKAGES_FILE);
         boolean primeDay = DatabaseManager.loadPrimeDay(PRIME_DAY_FILE);
         String primeString;
+
 
         if (primeDay) {
             primeString = "Deactivate Prime Day";
@@ -310,7 +313,11 @@ public class Warehouse {
                     break;
                 //Exit Program
                 case "6":
-                    DatabaseManager.saveProfit(PROFIT_FILE, profit + 1);
+                    DatabaseManager.saveProfit(PROFIT_FILE, profit);
+                    DatabaseManager.savePrimeDay(PRIME_DAY_FILE, primeDay);
+                    DatabaseManager.savePackagesShipped(N_PACKAGES_FILE, packagesShipped);
+                    DatabaseManager.saveVehicles(VEHICLE_FILE, vehicles);
+                    DatabaseManager.savePackages(PACKAGE_FILE, packages);
                     return;
                 default:
                     System.out.println("Error: Option not available.");

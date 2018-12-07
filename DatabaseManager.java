@@ -1,5 +1,3 @@
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
-
 import java.io.*;
 import java.util.ArrayList;
 
@@ -33,6 +31,7 @@ public class DatabaseManager {
             String l;
             while ((l = br.readLine()) != null){
                 if(l.contains("Truck") == true){
+                    
 
                     int index = l.indexOf(",");
                     int index2 = l.indexOf(",", index);
@@ -347,11 +346,24 @@ public class DatabaseManager {
 
     public static void saveProfit(File file, double profit) {
         try {
+            String oldFileName = file.getName();
+            String tmpFileName = "tmp_try.txt";
 
-            FileWriter fw = new FileWriter(file);
+           // System.out.println(file.getAbsolutePath());
+            File outfile = new File(file.getName());
+
+            FileWriter fw = new FileWriter(outfile);
             BufferedWriter bw = new BufferedWriter(fw);
             String x = "" + profit;
             bw.write(x);
+
+            //file.delete();
+
+            // And rename tmp file's name to old file name
+           // File newFile = new File(tmpFileName);
+            //newFile.renameTo(new File(oldFileName));
+
+            fw.close();
             bw.close();
 
         } catch (IOException e){
@@ -378,6 +390,7 @@ public class DatabaseManager {
 
             bw.write(x);
             bw.close();
+            fw.close();
         } catch (IOException e){
 
         }
@@ -403,9 +416,11 @@ public class DatabaseManager {
             if(primeDay = true) {
                 bw.write(1);
                 bw.close();
+                fw.close();
             } else {
                 bw.write(2);
                 bw.close();
+                fw.close();
             }
 
 
