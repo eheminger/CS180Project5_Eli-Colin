@@ -232,9 +232,7 @@ public class Vehicle implements Profitable {
 
         ArrayList<Integer> zipCodes = new ArrayList<>();
         for (Package temp: warehousePackages) {
-            if (getZipDest() - temp.getDestination().getZipCode() % 10 == 0) {
                 zipCodes.add(temp.getDestination().getZipCode());
-            }
         }
 
         int currentZipCode = this.getZipDest();
