@@ -120,9 +120,9 @@ public class Package {
                 "TO: " + destination.getName() + "\n" +
                 destination.getAddress() + "\n" +
                 destination.getCity() + ", " + destination.getState() + ", " + destination.getZipCode() + "\n" +
-                "Weight:        " + weight + "\n" +
-                "Price:         " + price + "\n" +
-                "Product:       " + product + "\n" +
+                String.format("Weight:%13s", weight) + "\n" +
+                String.format("Price:%14s", "$" + String.format("%.2f", price))+ "\n" +
+                "Product: " + product + "\n" +
                 "=======================" + "\n";
 
     }
