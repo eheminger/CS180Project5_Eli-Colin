@@ -8,49 +8,16 @@ import java.util.Scanner;
  */
 
 public class Warehouse {
-    final static String folderPath = "files/";
+	final static String folderPath = "files/";
     final static File VEHICLE_FILE = new File(folderPath + "VehicleList.csv");
     final static File PACKAGE_FILE = new File(folderPath + "PackageList.csv");
     final static File PROFIT_FILE = new File(folderPath + "Profit.txt");
     final static File N_PACKAGES_FILE = new File(folderPath + "NumberOfPackages.txt");
     final static File PRIME_DAY_FILE = new File(folderPath + "PrimeDay.txt");
     final static double PRIME_DAY_DISCOUNT = .15;
-    /**
-     * The loadVehicle method.
-     * The method searches for a vehicle of the specified type that is not full, and returns it.
-     * If there are no vehicles of the specified type, it will return null.
-     * You can specify either a Truck, Drone, or CargoPlane subclass.
-     * If anything else is entered, it will search for the first, non-full vehicle in the array list and return it.
-     * @param className the String name of vehicle subclass.
-     * @param vehicles the array list of vehicle that will be searched.
-     * @return the non-full vehicle of the specified type.
-     */
-    public Vehicle loadVehicle(String className, ArrayList<Vehicle> vehicles) {
-        for (Vehicle temp: vehicles) {
-            switch (className) {
-                case "Truck":
-                    if (temp instanceof Truck && !temp.isFull()) {
-                        return temp;
-                    }
-                    break;
-                case "Drone":
-                    if (temp instanceof Drone && !temp.isFull()) {
-                        return temp;
-                    }
-                    break;
-                case "CargoPlane":
-                    if (temp instanceof CargoPlane && !temp.isFull()) {
-                        return temp;
-                    }
-                    break;
-                default:
-                    if (!temp.isFull()) {
-                        return temp;
-                    }
-                    break;
-            }
-        }
-        return null;
+
+    public static void loadVehicle(Vehicle v, ArrayList<Package> packages) {
+        v.fill(packages);
     }
 
 
@@ -60,18 +27,41 @@ public class Warehouse {
         System.out.printf("Packages Shipped: %16d%n", numPackagesShipped);
         System.out.printf("Packages in Warehouse: %11d%n", numPackagesInWarehouse);
     }
+
+    public static int findMeanValue(ArrayList<Package> packageList) {
+        ArrayList<Integer> zipCodes = new ArrayList<>();
+        int zip = 0;
+        int max = 0;
+        for (int i = 0; i < packageList.size(); i++) {
+            int iterator = 0;
+            if (!zipCodes.contains(packageList.get(i).getDestination().getZipCode())) {
+                zipCodes.add(packageList.get(i).getDestination().getZipCode());
+            } else {
+                continue;
+            }
+            for (int r = 0; r < packageList.size(); r++) {
+                if (i != r &&
+                        packageList.get(i).getDestination().getZipCode() ==
+                                packageList.get(r).getDestination().getZipCode()) {
+                    iterator++;
+                }
+            }
+            if (iterator > max) {
+                max = iterator;
+                zip = packageList.get(i).getDestination().getZipCode();
+            }
+        }
+        return zip;
+    }
     /**
      * Main Method
-     *
+     * 
      * @param args list of command line arguements
      */
     public static void main(String[] args) {
-
-        printStatisticsReport(1000.00, 50, 6);
-        //TODO
         Scanner s = new Scanner(System.in);
         String divider = "================";
-        //1) load data (vehicle, packages, profits, packages shipped and primeday) from files using DatabaseManager
+    	//1) load data (vehicle, packages, profits, packages shipped and primeday) from files using DatabaseManager
         ArrayList<Vehicle> vehicles = DatabaseManager.loadVehicles(VEHICLE_FILE);
         ArrayList<Package> packages = DatabaseManager.loadPackages(PACKAGE_FILE);
         double profit = DatabaseManager.loadProfit(PROFIT_FILE);
@@ -84,9 +74,9 @@ public class Warehouse {
         } else {
             primeString = "Activate Prime Day";
         }
-
-        //2) Show menu and handle user inputs
-        while (true) {
+    	
+    	//2) Show menu and handle user inputs
+    	while (true) {
 
             System.out.println("========Options=========" +
                     "\n1) Add Package" +
@@ -137,47 +127,47 @@ public class Warehouse {
                 //Add vehicle
                 case "2":
                     //Add vehicle
-                    System.out.println("Vehicle Options:" +
-                            "\n1) Truck" +
-                            "\n2) Drone" +
-                            "\n3) Cargo Plane");
-                    r = s.nextLine();
                     while (true) {
-                        try {
-                            int intR = Integer.parseInt(r);
-                            //If the selection is out of range
-                            if (intR < 0 || intR > 3) {
+                        System.out.println("Vehicle Options:" +
+                                "\n1) Truck" +
+                                "\n2) Drone" +
+                                "\n3) Cargo Plane");
+                            r = s.nextLine();
+                            try {
+                                int intR = Integer.parseInt(r);
+                                //If the selection is out of range
+                                if (intR < 0 || intR > 3) {
+                                    System.out.println("Error: Option not available.");
+                                    continue;
+                                }
+                                System.out.println("Enter License Plate No.:");
+                                String licensePlate = s.nextLine();
+                                System.out.println("Enter Maximum Carry Weight:");
+                                double carryWeight = s.nextDouble();
+                                s.nextLine();
+                                Vehicle v;
+                                switch (intR) {
+                                    case 1:
+                                        //Add truck
+                                        v = new Truck(licensePlate, carryWeight);
+                                        break;
+                                    case 2:
+                                        //Add drone
+                                        v = new Drone(licensePlate, carryWeight);
+                                        break;
+                                    case 3:
+                                        //Add cargo plane
+                                        v = new CargoPlane(licensePlate, carryWeight);
+                                        break;
+                                    default:
+                                        throw new NumberFormatException();
+                                }
+                                vehicles.add(v);
+                            } catch (NumberFormatException e) {
                                 System.out.println("Error: Option not available.");
                                 continue;
                             }
-                            System.out.println("Enter License Plate No.:");
-                            String licensePlate = s.nextLine();
-                            System.out.println("Enter Maximum Carry Weight:");
-                            double carryWeight = s.nextDouble();
-                            s.nextLine();
-                            Vehicle v;
-                            switch (intR) {
-                                case 1:
-                                    //Add truck
-                                    v = new Truck(licensePlate, carryWeight);
-                                    break;
-                                case 2:
-                                    //Add drone
-                                    v = new Drone(licensePlate, carryWeight);
-                                    break;
-                                case 3:
-                                    //Add cargo plane
-                                    v = new CargoPlane(licensePlate, carryWeight);
-                                    break;
-                                default:
-                                    throw new NumberFormatException();
-                            }
-                            vehicles.add(v);
-                        } catch (NumberFormatException e) {
-                            System.out.println("Error: Option not available.");
-                            continue;
-                        }
-                        break;
+                            break;
                     }
                     break;
                 //Activate Prime day
@@ -285,15 +275,18 @@ public class Warehouse {
                                 //Send to first zip code
                                 case "1":
                                     d.setZipDest(packages.get(0).getDestination().getZipCode());
-                                    d.fill(packages);
+                                    loadVehicle(d, packages);
                                     profit += d.getProfit();
                                     packagesShipped += d.getPackages().size();
-
                                     vehicles.remove(d);
                                     break;
                                 //Send to mode zip code
                                 case "2":
-
+                                    d.setZipDest(findMeanValue(packages));
+                                    loadVehicle(d, packages);
+                                    profit += d.getProfit();
+                                    packagesShipped += d.getPackages().size();
+                                    vehicles.remove(d);
                                     break;
                                 default:
                                     System.out.println("Error Option not available.");
@@ -310,21 +303,12 @@ public class Warehouse {
                     break;
                 //Exit Program
                 case "6":
-                    DatabaseManager.saveProfit(PROFIT_FILE, profit);
-                    DatabaseManager.savePrimeDay(PRIME_DAY_FILE, primeDay);
-                    DatabaseManager.savePackagesShipped(N_PACKAGES_FILE, packagesShipped);
-                    DatabaseManager.saveVehicles(VEHICLE_FILE, vehicles);
-                    DatabaseManager.savePackages(PACKAGE_FILE, packages);
                     return;
                 default:
                     System.out.println("Error: Option not available.");
             }
         }
-
-
-        //3) save data (vehicle, packages, profits, packages shipped and primeday) to files (overwriting them) using DatabaseManager
-
-
+    	//3) save data (vehicle, packages, profits, packages shipped and primeday) to files (overwriting them) using DatabaseManager
     }
 
 
