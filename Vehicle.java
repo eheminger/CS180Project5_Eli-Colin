@@ -9,7 +9,7 @@ public class Vehicle implements Profitable {
     private double maxWeight;
     private double currentWeight;
     private int zipDest;
-    private ArrayList<Package> packages;
+    private ArrayList<Package> packages = new ArrayList<>();
 
 
     /**
@@ -168,7 +168,7 @@ public class Vehicle implements Profitable {
      */
     public boolean addPackage(Package pkg) {
 
-        if(currentWeight >= currentWeight + pkg.getWeight()){
+        if(maxWeight >= currentWeight + pkg.getWeight()){
             packages.add(pkg);
             currentWeight += pkg.getWeight();
             return true;
@@ -219,69 +219,57 @@ public class Vehicle implements Profitable {
      * @param warehousePackages List of packages to add from
      */
     public void fill(ArrayList<Package> warehousePackages) {
-
-        int range = zipDest;
-        int range2 = zipDest;
         ArrayList<Package> sending = new ArrayList<>();
 
         for (Package pack : warehousePackages) {
-            if (pack.getDestination().getZipCode() == range) {
+            if (pack.getDestination().getZipCode() == zipDest) {
                 if(pack.getWeight() + currentWeight <= maxWeight){
                     addPackage(pack);
                     sending.add(pack);
-                    currentWeight += pack.getWeight();
                 }
             }
         }
-        range -= 1;
-        range2 += 1;
 
-        while (isFull() == false) {
-            for (Package pack : warehousePackages) {
-                if (pack.getDestination().getZipCode() == range) {
-                    if (pack.getWeight() + currentWeight <= maxWeight) {
-                        for (Package packs : sending) {
-                            if(pack != packs) {
-                                addPackage(pack);
-                                sending.add(pack);
-                                currentWeight += pack.getWeight();
-                            }
-                        }
+        ArrayList<Integer> zipCodes = new ArrayList<>();
+        for (Package temp: warehousePackages) {
+            if (getZipDest() - temp.getDestination().getZipCode() % 10 == 0) {
+                zipCodes.add(temp.getDestination().getZipCode());
+            }
+        }
+
+        int currentZipCode = this.getZipDest();
+        int theZip = 1000000000;
+            for (int temp: zipCodes) {
+                if (temp > currentZipCode && temp < theZip);
+                    theZip = temp;
+                }
+            currentZipCode = theZip;
+            for (Package pack: warehousePackages) {
+                if (pack.getDestination().getZipCode() == currentZipCode) {
+                    if (currentWeight + pack.getWeight() <= maxWeight) {
+                        addPackage(pack);
                     }
                 }
             }
-            for (Package pack : warehousePackages) {
-                if (pack.getDestination().getZipCode() == range2) {
-                    if (pack.getWeight() + currentWeight <= maxWeight) {
-                        for (Package packs : sending) {
-                            if(pack != packs) {
-                                addPackage(pack);
-                                sending.add(pack);
-                                currentWeight += pack.getWeight();
-                            }
+            currentZipCode = this.getZipDest();
+                    theZip = 0;
+                    for (int temp: zipCodes) {
+                        if (temp < currentZipCode && temp > theZip);
+                        theZip = temp;
+                    }
+                currentZipCode = theZip;
+                for (Package pack: warehousePackages) {
+                    if(pack.getDestination().getZipCode() == currentZipCode) {
+                        if (currentWeight + pack.getWeight() <= maxWeight) {
+                            addPackage(pack);
                         }
                     }
-                }
-            }
-            if(isFull() == true){
+            if(isFull()){
                 break;
             }
-            if(packages == warehousePackages){
+            if(packages.size() == warehousePackages.size()){
                 break;
             }
-            range -= 1;
-            range2 += 1;
         }
-
-        for (Package pack : sending){
-            warehousePackages.remove(pack);
-        }
-
-
     }
-
-
-
-
-
 }
