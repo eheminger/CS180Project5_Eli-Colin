@@ -37,57 +37,60 @@ public class CargoPlane extends Vehicle {
      */
     @Override
     public void fill(ArrayList<Package> warehousePackages) {
-        ArrayList<Package> sending = new ArrayList<>();
+        for (int i = 0; i < getPackages().size(); i++) {
+            ArrayList<Package> sending = new ArrayList<>();
 
-        for (Package pack : warehousePackages) {
-            if (pack.getDestination().getZipCode() == getZipDest()) {
-                if(pack.getWeight() + getCurrentWeight() <= getMaxWeight()){
-                    addPackage(pack);
-                    sending.add(pack);
+            for (Package pack : warehousePackages) {
+                if (pack.getDestination().getZipCode() == getZipDest()) {
+                    if (pack.getWeight() + getCurrentWeight() <= getMaxWeight() && !getPackages().contains(pack)) {
+                        addPackage(pack);
+                        sending.add(pack);
+                    }
                 }
             }
-        }
 
-        ArrayList<Integer> zipCodes = new ArrayList<>();
-        for (Package temp: warehousePackages) {
-            if (getZipDest() - temp.getDestination().getZipCode() % 10 == 0 && getZipDest() != temp.getDestination().getZipCode()) {
-                zipCodes.add(temp.getDestination().getZipCode());
+            ArrayList<Integer> zipCodes = new ArrayList<>();
+            for (Package temp : warehousePackages) {
+                if (getZipDest() - temp.getDestination().getZipCode() % 10 == 0 && getZipDest() != temp.getDestination().getZipCode()) {
+                    zipCodes.add(temp.getDestination().getZipCode());
+                }
             }
-        }
 
-        int currentZipCode = this.getZipDest();
-        int theZip = 1000000000;
-            for (int temp: zipCodes) {
+            int currentZipCode = this.getZipDest();
+            int theZip = 1000000000;
+            for (int temp : zipCodes) {
                 if (temp > currentZipCode && temp < theZip) {
                     theZip = temp;
                 }
             }
-        currentZipCode = theZip;
-        for (Package pack: warehousePackages) {
-            if (pack.getDestination().getZipCode() == currentZipCode) {
-                if (getCurrentWeight() + pack.getWeight() <= getMaxWeight()) {
-                    addPackage(pack);
+            currentZipCode = theZip;
+            for (Package pack : warehousePackages) {
+                if (pack.getDestination().getZipCode() == currentZipCode) {
+                    if (getCurrentWeight() + pack.getWeight() <= getMaxWeight() && !getPackages().contains(pack)) {
+                        addPackage(pack);
+                    }
                 }
             }
-        }
-        currentZipCode = this.getZipDest();
-        theZip = 0;
-            for (int temp: zipCodes) {
-                if (temp < currentZipCode && temp > theZip);
-                theZip = temp;
-            }
-        currentZipCode = theZip;
-        for (Package pack: warehousePackages) {
-            if(pack.getDestination().getZipCode() == currentZipCode) {
-                if (getCurrentWeight() + pack.getWeight() <= getMaxWeight()) {
-                    addPackage(pack);
+            currentZipCode = this.getZipDest();
+            theZip = 0;
+            for (int temp : zipCodes) {
+                if (temp < currentZipCode && temp > theZip) {
+                    theZip = temp;
                 }
             }
-            if(isFull()){
-                break;
-            }
-            if(getPackages().size() == warehousePackages.size()){
-                break;
+            currentZipCode = theZip;
+            for (Package pack : warehousePackages) {
+                if (pack.getDestination().getZipCode() == currentZipCode) {
+                    if (getCurrentWeight() + pack.getWeight() <= getMaxWeight() && !getPackages().contains(pack)) {
+                        addPackage(pack);
+                    }
+                }
+                if (isFull()) {
+                    break;
+                }
+                if (getPackages().size() == warehousePackages.size()) {
+                    break;
+                }
             }
         }
     }
@@ -106,8 +109,8 @@ public class CargoPlane extends Vehicle {
      */
     @Override
     public double getProfit() {
-        int x = 0;
-        int distance = getZipDest();
+        double x = 0;
+        double distance = getZipDest();
 
         for(Package pack : getPackages()) {
             x += pack.getPrice();
