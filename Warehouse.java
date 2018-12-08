@@ -303,6 +303,11 @@ public class Warehouse {
                     break;
                 //Exit Program
                 case "6":
+	            DatabaseManager.saveProfit(PROFIT_FILE, profit);
+                    DatabaseManager.savePrimeDay(PRIME_DAY_FILE, primeDay);
+                    DatabaseManager.savePackagesShipped(N_PACKAGES_FILE, packagesShipped);
+                    DatabaseManager.saveVehicles(VEHICLE_FILE, vehicles);
+                    DatabaseManager.savePackages(PACKAGE_FILE, packages);
                     return;
                 default:
                     System.out.println("Error: Option not available.");
