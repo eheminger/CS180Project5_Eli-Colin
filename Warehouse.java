@@ -276,14 +276,26 @@ public class Warehouse {
                                 case "1":
                                     d.setZipDest(packages.get(0).getDestination().getZipCode());
                                     loadVehicle(d, packages);
+                                    for (Package temp: d.getPackages()) {
+                                        if (packages.contains(temp)) {
+                                            packages.remove(temp);
+                                        }
+                                    }
                                     profit += d.getProfit();
                                     packagesShipped += d.getPackages().size();
+                                    System.out.println(d.report());
                                     vehicles.remove(d);
                                     break;
                                 //Send to mode zip code
                                 case "2":
                                     d.setZipDest(findMeanValue(packages));
                                     loadVehicle(d, packages);
+                                    for (Package temp: d.getPackages()) {
+                                        if (packages.contains(temp)) {
+                                            packages.remove(temp);
+                                        }
+                                    }
+                                    d.report();
                                     profit += d.getProfit();
                                     packagesShipped += d.getPackages().size();
                                     vehicles.remove(d);
@@ -303,11 +315,6 @@ public class Warehouse {
                     break;
                 //Exit Program
                 case "6":
-	            DatabaseManager.saveProfit(PROFIT_FILE, profit);
-                    DatabaseManager.savePrimeDay(PRIME_DAY_FILE, primeDay);
-                    DatabaseManager.savePackagesShipped(N_PACKAGES_FILE, packagesShipped);
-                    DatabaseManager.saveVehicles(VEHICLE_FILE, vehicles);
-                    DatabaseManager.savePackages(PACKAGE_FILE, packages);
                     return;
                 default:
                     System.out.println("Error: Option not available.");
