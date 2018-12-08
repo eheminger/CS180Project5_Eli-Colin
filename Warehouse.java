@@ -8,7 +8,7 @@ import java.util.Scanner;
  */
 
 public class Warehouse {
-	final static String folderPath = "files/";
+    final static String folderPath = "files/";
     final static File VEHICLE_FILE = new File(folderPath + "VehicleList.csv");
     final static File PACKAGE_FILE = new File(folderPath + "PackageList.csv");
     final static File PROFIT_FILE = new File(folderPath + "Profit.txt");
@@ -62,16 +62,16 @@ public class Warehouse {
     }
     /**
      * Main Method
-     * 
+     *
      * @param args list of command line arguements
      */
     public static void main(String[] args) {
 
         printStatisticsReport(1000.00, 50, 6);
-    	//TODO
+        //TODO
         Scanner s = new Scanner(System.in);
         String divider = "================";
-    	//1) load data (vehicle, packages, profits, packages shipped and primeday) from files using DatabaseManager
+        //1) load data (vehicle, packages, profits, packages shipped and primeday) from files using DatabaseManager
         ArrayList<Vehicle> vehicles = DatabaseManager.loadVehicles(VEHICLE_FILE);
         ArrayList<Package> packages = DatabaseManager.loadPackages(PACKAGE_FILE);
         double profit = DatabaseManager.loadProfit(PROFIT_FILE);
@@ -84,9 +84,9 @@ public class Warehouse {
         } else {
             primeString = "Activate Prime Day";
         }
-    	
-    	//2) Show menu and handle user inputs
-    	while (true) {
+
+        //2) Show menu and handle user inputs
+        while (true) {
 
             System.out.println("========Options=========" +
                     "\n1) Add Package" +
@@ -152,9 +152,8 @@ public class Warehouse {
                             }
                             System.out.println("Enter License Plate No.:");
                             String licensePlate = s.nextLine();
-                            s.next();
                             System.out.println("Enter Maximum Carry Weight:");
-                            int carryWeight = s.nextInt();
+                            double carryWeight = s.nextDouble();
                             s.nextLine();
                             Vehicle v;
                             switch (intR) {
@@ -289,7 +288,7 @@ public class Warehouse {
                                     d.fill(packages);
                                     profit += d.getProfit();
                                     packagesShipped += d.getPackages().size();
-                 
+
                                     vehicles.remove(d);
                                     break;
                                 //Send to mode zip code
@@ -311,16 +310,21 @@ public class Warehouse {
                     break;
                 //Exit Program
                 case "6":
+                    DatabaseManager.saveProfit(PROFIT_FILE, profit);
+                    DatabaseManager.savePrimeDay(PRIME_DAY_FILE, primeDay);
+                    DatabaseManager.savePackagesShipped(N_PACKAGES_FILE, packagesShipped);
+                    DatabaseManager.saveVehicles(VEHICLE_FILE, vehicles);
+                    DatabaseManager.savePackages(PACKAGE_FILE, packages);
                     return;
                 default:
                     System.out.println("Error: Option not available.");
             }
         }
-    	
-    
-    	//3) save data (vehicle, packages, profits, packages shipped and primeday) to files (overwriting them) using DatabaseManager
-    	
-    
+
+
+        //3) save data (vehicle, packages, profits, packages shipped and primeday) to files (overwriting them) using DatabaseManager
+
+
     }
 
 
