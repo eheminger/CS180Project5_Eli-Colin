@@ -50,7 +50,9 @@ public class CargoPlane extends Vehicle {
 
         ArrayList<Integer> zipCodes = new ArrayList<>();
         for (Package temp: warehousePackages) {
-            zipCodes.add(temp.getDestination().getZipCode());
+            if (getZipDest() - temp.getDestination().getZipCode() % 10 == 0) {
+                zipCodes.add(temp.getDestination().getZipCode());
+            }
         }
 
         int currentZipCode = this.getZipDest();
