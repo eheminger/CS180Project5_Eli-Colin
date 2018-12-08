@@ -219,57 +219,60 @@ public class Vehicle implements Profitable {
      * @param warehousePackages List of packages to add from
      */
     public void fill(ArrayList<Package> warehousePackages) {
-        ArrayList<Package> sending = new ArrayList<>();
+        for (int i = 0; i < warehousePackages.size(); i++) {
+            ArrayList<Package> sending = new ArrayList<>();
 
-        for (Package pack : warehousePackages) {
-            if (pack.getDestination().getZipCode() == zipDest) {
-                if(pack.getWeight() + currentWeight <= maxWeight){
-                    addPackage(pack);
-                    sending.add(pack);
+            for (Package pack : warehousePackages) {
+                if (pack.getDestination().getZipCode() == zipDest) {
+                    if (pack.getWeight() + currentWeight <= maxWeight && !packages.contains(pack)) {
+                        addPackage(pack);
+                        sending.add(pack);
+                    }
                 }
             }
-        }
 
-        ArrayList<Integer> zipCodes = new ArrayList<>();
-        for (Package temp: warehousePackages) {
-            if (temp.getDestination().getZipCode() != getZipDest()) {
-                zipCodes.add(temp.getDestination().getZipCode());
+            ArrayList<Integer> zipCodes = new ArrayList<>();
+            for (Package temp : warehousePackages) {
+                if (temp.getDestination().getZipCode() != getZipDest()) {
+                    zipCodes.add(temp.getDestination().getZipCode());
+                }
             }
-        }
 
-        int currentZipCode = this.getZipDest();
-        int theZip = 1000000000;
-            for (int temp: zipCodes) {
+            int currentZipCode = this.getZipDest();
+            int theZip = 1000000000;
+            for (int temp : zipCodes) {
                 if (temp > currentZipCode && temp < theZip) {
                     theZip = temp;
                 }
             }
             currentZipCode = theZip;
-            for (Package pack: warehousePackages) {
+            for (Package pack : warehousePackages) {
                 if (pack.getDestination().getZipCode() == currentZipCode) {
-                    if (currentWeight + pack.getWeight() <= maxWeight) {
+                    if (currentWeight + pack.getWeight() <= maxWeight && !packages.contains(pack)) {
                         addPackage(pack);
                     }
                 }
             }
             currentZipCode = this.getZipDest();
-                    theZip = 0;
-                    for (int temp: zipCodes) {
-                        if (temp < currentZipCode && temp > theZip);
-                        theZip = temp;
-                    }
-                currentZipCode = theZip;
-                for (Package pack: warehousePackages) {
-                    if(pack.getDestination().getZipCode() == currentZipCode) {
-                        if (currentWeight + pack.getWeight() <= maxWeight) {
-                            addPackage(pack);
-                        }
-                    }
-            if(isFull()){
-                break;
+            theZip = 0;
+            for (int temp : zipCodes) {
+                if (temp < currentZipCode && temp > theZip) {
+                    theZip = temp;
+                }
             }
-            if(packages.size() == warehousePackages.size()){
-                break;
+            currentZipCode = theZip;
+            for (Package pack : warehousePackages) {
+                if (pack.getDestination().getZipCode() == currentZipCode) {
+                    if (currentWeight + pack.getWeight() <= maxWeight && !packages.contains(pack)) {
+                        addPackage(pack);
+                    }
+                }
+                if (isFull()) {
+                    break;
+                }
+                if (packages.size() == warehousePackages.size()) {
+                    break;
+                }
             }
         }
     }
