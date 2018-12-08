@@ -1,5 +1,3 @@
-import sun.awt.geom.AreaOp;
-
 import java.util.ArrayList;
 
 
@@ -39,46 +37,56 @@ public class CargoPlane extends Vehicle {
      */
     @Override
     public void fill(ArrayList<Package> warehousePackages) {
-
-        int range = getZipDest();
-        int range2 = getZipDest();
-        double current = getCurrentWeight();
+        ArrayList<Package> sending = new ArrayList<>();
 
         for (Package pack : warehousePackages) {
-            if (pack.getDestination().getZipCode() == range) {
-                if(pack.getWeight() + current <= getMaxWeight()){
+            if (pack.getDestination().getZipCode() == getZipDest()) {
+                if(pack.getWeight() + getCurrentWeight() <= getMaxWeight()){
                     addPackage(pack);
-                    warehousePackages.remove(pack);
-                    current += pack.getWeight();
+                    sending.add(pack);
                 }
             }
         }
-        range -= 10;
-        range2 += 10;
 
-        while (isFull() == false) {
-            for (Package pack : warehousePackages) {
-                if (pack.getDestination().getZipCode() == range) {
-                    if (pack.getWeight() + current <= getMaxWeight()) {
-                        addPackage(pack);
-                        warehousePackages.remove(pack);
-                        current += pack.getWeight();
-                    }
-                }
-            }
-            for (Package pack : warehousePackages) {
-                if (pack.getDestination().getZipCode() == range2) {
-                    if (pack.getWeight() + current <= getMaxWeight()) {
-                        addPackage(pack);
-                        warehousePackages.remove(pack);
-                        current += pack.getWeight();
-                    }
-                }
-            }
-            range -= 10;
-            range2 += 10;
+        ArrayList<Integer> zipCodes = new ArrayList<>();
+        for (Package temp: warehousePackages) {
+            zipCodes.add(temp.getDestination().getZipCode());
         }
-        
+
+        int currentZipCode = this.getZipDest();
+        int theZip = 1000000000;
+            for (int temp: zipCodes) {
+                if (temp > currentZipCode && temp < theZip);
+                theZip = temp;
+            }
+        currentZipCode = theZip;
+        for (Package pack: warehousePackages) {
+            if (pack.getDestination().getZipCode() == currentZipCode) {
+                if (getCurrentWeight() + pack.getWeight() <= getMaxWeight()) {
+                    addPackage(pack);
+                }
+            }
+        }
+        currentZipCode = this.getZipDest();
+        theZip = 0;
+            for (int temp: zipCodes) {
+                if (temp < currentZipCode && temp > theZip);
+                theZip = temp;
+            }
+        currentZipCode = theZip;
+        for (Package pack: warehousePackages) {
+            if(pack.getDestination().getZipCode() == currentZipCode) {
+                if (getCurrentWeight() + pack.getWeight() <= getMaxWeight()) {
+                    addPackage(pack);
+                }
+            }
+            if(isFull()){
+                break;
+            }
+            if(getPackages().size() == warehousePackages.size()){
+                break;
+            }
+        }
     }
 
     /*
