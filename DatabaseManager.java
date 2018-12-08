@@ -398,13 +398,16 @@ public class DatabaseManager {
         try {
             FileWriter fw = new FileWriter(file);
             BufferedWriter bw = new BufferedWriter(fw);
-            if(primeDay = true) {
+            if(primeDay == true) {
+                System.out.println(1);
                 bw.write(1);
                 bw.close();
             } else {
-                bw.write(2);
+                System.out.println(0);
+                bw.write(0);
                 bw.close();
             }
+
 
 
         } catch (IOException e){
