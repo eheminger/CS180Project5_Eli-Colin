@@ -240,29 +240,39 @@ public class Vehicle implements Profitable {
         for (int i = 0; i < warehousePackages.size(); i++){
 
 
-            for (Package pack : warehousePackages) {
-                if (pack.getDestination().getZipCode() == index) {
-                    if (pack.getWeight() + currentWeight <= maxWeight && !packages.contains(pack)) {
-                        addPackage(pack);
-                        sending.add(pack);
+            for (int y = 0; y < x.size(); y++) {
+                if (x.get(y) == index) {
+                    if (warehousePackages.get(y).getWeight() + currentWeight <= maxWeight) {
+                        addPackage(warehousePackages.get(y));
+                        sending.add(warehousePackages.get(y));
                     }
                 }
             }
+
+
             int tempIndex = index;
-            for (int y : x) {
-                if(y > index) {
+            for (int y = 0; y < x.size();y++) {
+
+                boolean stupid = true;
+
+                if (y > index && stupid == true) {
+                    stupid = false;
+                    tempIndex = x.get(y);
+
+                } else if (y > index) {
                     if(y < tempIndex){
                         tempIndex = y;
-                    } else if( y > tempIndex){
-                        
-                    } else {
-                        tempIndex = y;
-
                     }
                 }
+            }
 
+            index = tempIndex;
 
-
+            if (isFull()) {
+                break;
+            }
+            if (packages.size() == warehousePackages.size()) {
+                break;
             }
 
 

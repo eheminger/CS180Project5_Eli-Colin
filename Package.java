@@ -1,3 +1,6 @@
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 /**
  * <h1>Package</h1> Represents a package
  */
@@ -7,6 +10,8 @@ public class Package {
     private double weight;
     private double price;
     private ShippingAddress destination;
+    DecimalFormat df = new DecimalFormat(".00");
+    NumberFormat fmt = NumberFormat.getCurrencyInstance();
 
     /**
      * Default Constructor
@@ -116,14 +121,14 @@ public class Package {
      * @return The package's shipping label.
      */
     public String shippingLabel() {
-        return  "=======================\n" +
+        return  "====================\n" +
                 "TO: " + destination.getName() + "\n" +
                 destination.getAddress() + "\n" +
                 destination.getCity() + ", " + destination.getState() + ", " + destination.getZipCode() + "\n" +
-                String.format("Weight:%13s", weight) + "\n" +
-                String.format("Price:%14s", "$" + String.format("%.2f", price))+ "\n" +
-                "Product: " + product + "\n" +
-                "=======================" + "\n";
+                String.format("Weight:%13s", df.format(weight)) + "\n" +
+                String.format("Price:%14s", fmt.format(price))+ "\n" +
+                "Product:" + product + "\n" +
+                "====================" + "\n";
 
     }
 
