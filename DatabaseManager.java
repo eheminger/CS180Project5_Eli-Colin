@@ -1,10 +1,9 @@
 import java.io.*;
 import java.util.ArrayList;
-
 /**
- * <h1>Database Manager</h1>
- *
- * Used to locally save and retrieve data.
+ * @author      Eli H.  && Colin Vinarcik
+ * @version     1.29
+ * @since       12/8/2028
  */
 public class DatabaseManager {
 
@@ -54,8 +53,8 @@ public class DatabaseManager {
 
                 } else if (l.contains("Cargo Plane")) {
 
-                    int index = l.indexOf(",");
-                    int index2 = l.indexOf(",", index);
+                    int index = l.indexOf(",") + 1;
+                    int index2 = l.indexOf(",", index) + 1;
 
                     String license = l.substring(index, l.indexOf(",", index));
                     double maxWeight = Double.parseDouble(l.substring(index2));
@@ -400,11 +399,11 @@ public class DatabaseManager {
             BufferedWriter bw = new BufferedWriter(fw);
             if(primeDay == true) {
                 System.out.println(1);
-                bw.write(1);
+                bw.write("1");
                 bw.close();
             } else {
                 System.out.println(0);
-                bw.write(0);
+                bw.write("0");
                 bw.close();
             }
 

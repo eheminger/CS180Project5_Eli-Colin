@@ -1,13 +1,15 @@
 import java.io.File;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-
 /**
- * <h1>Warehouse</h1>
+ * @author      Eli H.  && Colin Vinarcik
+ * @version     1.29
+ * @since       12/8/2028
  */
-
 public class Warehouse {
+    public static final DecimalFormat df2 = new DecimalFormat( "#.00" );
     final static String folderPath = "files/";
     final static File VEHICLE_FILE = new File(folderPath + "VehicleList.csv");
     final static File PACKAGE_FILE = new File(folderPath + "PackageList.csv");

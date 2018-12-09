@@ -1,11 +1,13 @@
+import java.text.DecimalFormat;
 import java.util.ArrayList;
-
 /**
- * <h1>Drone</h1> Represents a Drone
+ * @author      Eli H.  && Colin Vinarcik
+ * @version     1.29
+ * @since       12/8/2028
  */
-
 public class Drone extends Vehicle {
 
+    public static final DecimalFormat df2 = new DecimalFormat( "#.00" );
     final private double GAS_RATE = 1.33;
     /**
      * Default Contructor 
@@ -43,8 +45,9 @@ public class Drone extends Vehicle {
      */
     @Override
     public double getProfit() {
-        int x = 0;
-        int distance = getZipDest();
+        double x = 0;
+
+        double distance = 0;
 
         for(Package pack : getPackages()) {
             x += pack.getPrice();
@@ -53,6 +56,8 @@ public class Drone extends Vehicle {
                 distance = Math.abs(zip);
             }
         }
+
+
 
         return x - (GAS_RATE * distance);
 

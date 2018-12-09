@@ -1,8 +1,8 @@
 import java.util.ArrayList;
-
-
 /**
- * <h1>Truck</h1> Represents a Truck
+ * @author      Eli H.  && Colin Vinarcik
+ * @version     1.29
+ * @since       12/8/2028
  */
 public class Truck extends Vehicle {
 
@@ -43,8 +43,8 @@ public class Truck extends Vehicle {
      */
     @Override
     public double getProfit() {
-        int x = 0;
-        int distance = getZipDest();
+        double x = 0;
+        double distance = 0;
 
         for(Package pack : getPackages()) {
             x += pack.getPrice();

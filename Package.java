@@ -1,8 +1,9 @@
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-
 /**
- * <h1>Package</h1> Represents a package
+ * @author      Eli H.  && Colin Vinarcik
+ * @version     1.29
+ * @since       12/8/2028
  */
 public class Package {
     private String id;

@@ -1,10 +1,10 @@
 import java.util.ArrayList;
 import java.util.Comparator;
-
 /**
- * <h1>Vehicle</h1> Represents a vehicle
+ * @author      Eli H.  && Colin Vinarcik
+ * @version     1.29
+ * @since       12/8/2028
  */
-
 public class Vehicle implements Profitable {
     private String licensePlate;
     private double maxWeight;
@@ -251,17 +251,15 @@ public class Vehicle implements Profitable {
 
 
             int tempIndex = index;
+            boolean stupid = true;
             for (int y = 0; y < x.size();y++) {
-
-                boolean stupid = true;
-
-                if (y > index && stupid == true) {
+                if (x.get(y) > index && stupid == true) {
                     stupid = false;
                     tempIndex = x.get(y);
 
-                } else if (y > index) {
-                    if(y < tempIndex){
-                        tempIndex = y;
+                } else if (x.get(y) > index) {
+                    if(x.get(y) < tempIndex){
+                        tempIndex = x.get(y);
                     }
                 }
             }

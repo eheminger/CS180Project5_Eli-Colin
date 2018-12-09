@@ -1,8 +1,8 @@
 import java.util.ArrayList;
-
-
 /**
- * <h1>CargoPlane</h1> Represents a Cargo Plane
+ * @author      Eli H.  && Colin Vinarcik
+ * @version     1.29
+ * @since       12/8/2028
  */
 public class CargoPlane extends Vehicle {
     final double GAS_RATE = 2.33;
@@ -26,7 +26,7 @@ public class CargoPlane extends Vehicle {
     public CargoPlane(String licensePlate, double maxWeight) {
         super(licensePlate, maxWeight);
     }
-    
+
     //============================================================================
 
     /**
@@ -37,61 +37,59 @@ public class CargoPlane extends Vehicle {
      */
     @Override
     public void fill(ArrayList<Package> warehousePackages) {
-        for (int i = 0; i < getPackages().size(); i++) {
-            ArrayList<Package> sending = new ArrayList<>();
 
-            for (Package pack : warehousePackages) {
-                if (pack.getDestination().getZipCode() == getZipDest()) {
-                    if (pack.getWeight() + getCurrentWeight() <= getMaxWeight() && !getPackages().contains(pack)) {
-                        addPackage(pack);
-                        sending.add(pack);
+
+        ArrayList<Integer> x = new ArrayList<>();
+
+        for(Package pack : warehousePackages) {
+            int packZip = pack.getDestination().getZipCode();
+            int zip = Math.abs(getZipDest() - packZip);
+            x.add(zip);
+        }
+
+
+        ArrayList<Package> sending = new ArrayList<>();
+        int index = 10;
+
+        for (int i = 0; i < warehousePackages.size(); i++){
+
+
+            for (int y = 0; y < x.size(); y++) {
+                if (x.get(y) <= index) {
+                    if (warehousePackages.get(y).getWeight() + getCurrentWeight() <= getMaxWeight()) {
+                        addPackage(warehousePackages.get(y));
+                        sending.add(warehousePackages.get(y));
                     }
                 }
             }
 
-            ArrayList<Integer> zipCodes = new ArrayList<>();
-            for (Package temp : warehousePackages) {
-                if (getZipDest() - temp.getDestination().getZipCode() % 10 == 0 && getZipDest() != temp.getDestination().getZipCode()) {
-                    zipCodes.add(temp.getDestination().getZipCode());
+
+            int tempIndex = index;
+            boolean stupid = true;
+            for (int y = 0; y < x.size();y++) {
+                if (x.get(y) > index && stupid == true) {
+                    stupid = false;
+                    tempIndex = x.get(y);
+                } else if (x.get(y) > index) {
+                    if(x.get(y) < tempIndex){
+                        tempIndex = x.get(y);
+                    }
                 }
+            }
+            int tens = tempIndex / 10;
+            tens += 10;
+
+            index = tens;
+
+            if (isFull()) {
+                break;
+            }
+            if (getPackages().size() == warehousePackages.size()) {
+                break;
             }
 
-            int currentZipCode = this.getZipDest();
-            int theZip = 1000000000;
-            for (int temp : zipCodes) {
-                if (temp > currentZipCode && temp < theZip) {
-                    theZip = temp;
-                }
-            }
-            currentZipCode = theZip;
-            for (Package pack : warehousePackages) {
-                if (pack.getDestination().getZipCode() == currentZipCode) {
-                    if (getCurrentWeight() + pack.getWeight() <= getMaxWeight() && !getPackages().contains(pack)) {
-                        addPackage(pack);
-                    }
-                }
-            }
-            currentZipCode = this.getZipDest();
-            theZip = 0;
-            for (int temp : zipCodes) {
-                if (temp < currentZipCode && temp > theZip) {
-                    theZip = temp;
-                }
-            }
-            currentZipCode = theZip;
-            for (Package pack : warehousePackages) {
-                if (pack.getDestination().getZipCode() == currentZipCode) {
-                    if (getCurrentWeight() + pack.getWeight() <= getMaxWeight() && !getPackages().contains(pack)) {
-                        addPackage(pack);
-                    }
-                }
-                if (isFull()) {
-                    break;
-                }
-                if (getPackages().size() == warehousePackages.size()) {
-                    break;
-                }
-            }
+
+
         }
     }
 
@@ -153,8 +151,8 @@ public class CargoPlane extends Vehicle {
 
     }
 
-   
-   
+
+
 }
 
 //==========Options==========
