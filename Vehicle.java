@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 
 /**
  * <h1>Vehicle</h1> Represents a vehicle
@@ -218,8 +219,58 @@ public class Vehicle implements Profitable {
      *
      * @param warehousePackages List of packages to add from
      */
+
+
+    //abs value of the zip from the zip des
     public void fill(ArrayList<Package> warehousePackages) {
-        for (int i = 0; i < warehousePackages.size(); i++) {
+
+
+        ArrayList<Integer> x = new ArrayList<>();
+
+        for(Package pack : warehousePackages) {
+            int packZip = pack.getDestination().getZipCode();
+            int zip = Math.abs(zipDest - packZip);
+            x.add(zip);
+        }
+
+
+        ArrayList<Package> sending = new ArrayList<>();
+        int index = 0;
+
+        for (int i = 0; i < warehousePackages.size(); i++){
+
+
+            for (Package pack : warehousePackages) {
+                if (pack.getDestination().getZipCode() == index) {
+                    if (pack.getWeight() + currentWeight <= maxWeight && !packages.contains(pack)) {
+                        addPackage(pack);
+                        sending.add(pack);
+                    }
+                }
+            }
+            int tempIndex = index;
+            for (int y : x) {
+                if(y > index) {
+                    if(y < tempIndex){
+                        tempIndex = y;
+                    } else if( y > tempIndex){
+                        
+                    } else {
+                        tempIndex = y;
+
+                    }
+                }
+
+
+
+            }
+
+
+
+        }
+
+
+       /* for (int i = 0; i < warehousePackages.size(); i++) {
             ArrayList<Package> sending = new ArrayList<>();
 
             for (Package pack : warehousePackages) {
@@ -275,5 +326,6 @@ public class Vehicle implements Profitable {
                 }
             }
         }
+        */
     }
 }
