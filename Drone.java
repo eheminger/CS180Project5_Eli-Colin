@@ -7,8 +7,11 @@ import java.util.ArrayList;
  */
 public class Drone extends Vehicle {
 
-    public static final DecimalFormat df2 = new DecimalFormat( "#.00" );
-    final private double GAS_RATE = 1.33;
+    public static DecimalFormat df2 = new DecimalFormat( "#.00" );
+    final private double gasRate = 1.33;
+
+
+
     /**
      * Default Contructor 
      */
@@ -49,17 +52,17 @@ public class Drone extends Vehicle {
 
         double distance = 0;
 
-        for(Package pack : getPackages()) {
+        for (Package pack : getPackages()) {
             x += pack.getPrice();
             int zip = getZipDest() - pack.getDestination().getZipCode();
-            if(distance < Math.abs(zip)){
+            if (distance < Math.abs(zip)) {
                 distance = Math.abs(zip);
             }
         }
 
 
 
-        return x - (GAS_RATE * distance);
+        return x - (gasRate * distance);
 
     }
 
@@ -84,7 +87,7 @@ public class Drone extends Vehicle {
                 getMaxWeight() + "\nNet Profit: " + getProfit()
                 + "\n==============================\n";
         String l  = "";
-        for(Package pack: getPackages()){
+        for (Package pack: getPackages()) {
             l += pack.shippingLabel();
         }
 

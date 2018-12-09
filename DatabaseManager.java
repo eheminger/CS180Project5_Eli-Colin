@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.ArrayList;
 /**
- * @author      Eli H.  && Colin Vinarcik
+ * @author      Eli H.  && Colin V.
  * @version     1.29
  * @since       12/8/2028
  */
@@ -28,8 +28,8 @@ public class DatabaseManager {
             BufferedReader br = new BufferedReader(fr);
 
             String l;
-            while ((l = br.readLine()) != null){
-                if(l.contains("Truck")){
+            while ((l = br.readLine()) != null) {
+                if (l.contains("Truck")) {
 
                     int index = l.indexOf(",") + 1;
                     int index2 = l.indexOf(",", index) + 1;
@@ -41,7 +41,7 @@ public class DatabaseManager {
                     loadVehicles.add(t);
 
 
-                } else if(l.contains("Drone")) {
+                } else if (l.contains("Drone")) {
 
                     int index = l.indexOf(",") + 1;
                     int index2 = l.indexOf(",", index) + 1;
@@ -71,7 +71,7 @@ public class DatabaseManager {
 
 
 
-        } catch (IOException e){
+        } catch (IOException e) {
             ArrayList<Vehicle> loadVehicles = new ArrayList<>();
             return loadVehicles;
         }
@@ -108,7 +108,7 @@ public class DatabaseManager {
             BufferedReader br = new BufferedReader(fr);
 
             String l;
-            while ((l = br.readLine()) != null){
+            while ((l = br.readLine()) != null) {
                 int index = l.indexOf(",") + 1;
                 int index2 = l.indexOf(",", index) + 1;
                 int index3 = l.indexOf(",", index2) + 1;
@@ -141,7 +141,7 @@ public class DatabaseManager {
 
 
 
-        } catch (IOException e){
+        } catch (IOException e) {
             ArrayList<Package> loadPackage = new ArrayList<>();
             return loadPackage;
         }
@@ -160,7 +160,7 @@ public class DatabaseManager {
      * @return profits from file
      */
     public static double loadProfit(File file) {
-        try{
+        try {
             FileReader fr = new FileReader(file);
             BufferedReader br = new BufferedReader(fr);
             String x;
@@ -168,7 +168,7 @@ public class DatabaseManager {
             fr.close();
             br.close();
             return Double.parseDouble(x);
-        } catch (IOException e){
+        } catch (IOException e) {
             return 0;
         }
     }
@@ -185,7 +185,7 @@ public class DatabaseManager {
      * @return number of packages shipped from file
      */
     public static int loadPackagesShipped(File file) {
-        try{
+        try {
             FileReader fr = new FileReader(file);
             BufferedReader br = new BufferedReader(fr);
             String x;
@@ -193,7 +193,7 @@ public class DatabaseManager {
             fr.close();
             br.close();
             return Integer.parseInt(x);
-        } catch (IOException e){
+        } catch (IOException e) {
             return 0;
         }
     }
@@ -210,13 +210,13 @@ public class DatabaseManager {
      */
     public static boolean loadPrimeDay(File file) {
 
-        try{
+        try {
             FileReader fr = new FileReader(file);
             BufferedReader br = new BufferedReader(fr);
 
             String x;
-            while ((x = br.readLine()) != null){
-                if(x.contains("1") == true){
+            while ((x = br.readLine()) != null) {
+                if (x.contains("1") == true) {
                     fr.close();
                     br.close();
                     return true;
@@ -229,7 +229,7 @@ public class DatabaseManager {
 
 
 
-        } catch (IOException e){
+        } catch (IOException e) {
             return false;
         }
     }
@@ -254,15 +254,15 @@ public class DatabaseManager {
         try {
             FileWriter fw = new FileWriter(file);
             BufferedWriter bw = new BufferedWriter(fw);
-            for(Vehicle veh : vehicles) {
+            for (Vehicle veh : vehicles) {
                 String x = "";
-                if(veh instanceof CargoPlane == true){
+                if (veh instanceof CargoPlane == true) {
                     x += "Cargo Plane,";
                 }
-                if(veh instanceof Drone == true){
+                if (veh instanceof Drone == true) {
                     x += "Drone,";
                 }
-                if(veh instanceof Truck == true){
+                if (veh instanceof Truck == true) {
                     x += "Truck,";
                 }
                 x += veh.getLicensePlate() + ",";
@@ -276,8 +276,8 @@ public class DatabaseManager {
             }
             bw.close();
 
-        } catch (IOException e){
-
+        } catch (IOException e) {
+            System.out.println("Vehicle did not save properly.");
         }
     }
 
@@ -306,7 +306,7 @@ public class DatabaseManager {
         try {
             FileWriter fw = new FileWriter(file);
             BufferedWriter bw = new BufferedWriter(fw);
-            for(Package pack : packages) {
+            for (Package pack : packages) {
                 String x = "";
                 x += pack.getID() + ",";
                 x += pack.getProduct() + ",";
@@ -327,8 +327,8 @@ public class DatabaseManager {
             }
             bw.close();
 
-        } catch (IOException e){
-
+        } catch (IOException e) {
+            System.out.println("Packages did not save properly.");
         }
     }
 
@@ -351,8 +351,8 @@ public class DatabaseManager {
             bw.write(x);
             bw.close();
 
-        } catch (IOException e){
-
+        } catch (IOException e) {
+            System.out.println("Profit did not save properly.");
         }
     }
 
@@ -375,8 +375,8 @@ public class DatabaseManager {
 
             bw.write(x);
             bw.close();
-        } catch (IOException e){
-
+        } catch (IOException e) {
+            System.out.println("Packages shipped  did not save properly.");
         }
     }
 
@@ -397,7 +397,7 @@ public class DatabaseManager {
         try {
             FileWriter fw = new FileWriter(file);
             BufferedWriter bw = new BufferedWriter(fw);
-            if(primeDay == true) {
+            if (primeDay == true) {
                 System.out.println(1);
                 bw.write("1");
                 bw.close();
@@ -409,8 +409,8 @@ public class DatabaseManager {
 
 
 
-        } catch (IOException e){
-
+        } catch (IOException e) {
+            System.out.println("Prime Day did not save properly.");
         }
     }
 }

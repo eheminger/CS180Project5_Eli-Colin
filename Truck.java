@@ -6,13 +6,13 @@ import java.util.ArrayList;
  */
 public class Truck extends Vehicle {
 
-    private final double GAS_RATE = 1.66;
+    private final double gasRate = 1.66;
 
     /**
      * Default Constructor
      */
     //============================================================================
-    public Truck(){
+    public Truck() {
 
     }
     //============================================================================
@@ -24,7 +24,7 @@ public class Truck extends Vehicle {
      * @param maxWeight    maximum weight that the vehicle can hold
      */
     //============================================================================
-    public Truck(String licensePlate, double maxWeight){
+    public Truck(String licensePlate, double maxWeight) {
         super(licensePlate, maxWeight);
     }
     
@@ -46,15 +46,15 @@ public class Truck extends Vehicle {
         double x = 0;
         double distance = 0;
 
-        for(Package pack : getPackages()) {
+        for (Package pack : getPackages()) {
             x += pack.getPrice();
             int zip = getZipDest() - pack.getDestination().getZipCode();
-            if(distance < Math.abs(zip)){
+            if (distance < Math.abs(zip)) {
                 distance = Math.abs(zip);
             }
         }
 
-        return x - (GAS_RATE * distance);
+        return x - (gasRate * distance);
 
     }
 
@@ -79,7 +79,7 @@ public class Truck extends Vehicle {
                 getMaxWeight() + "\nNet Profit: " + getProfit()
                 + "\n==============================\n";
         String l  = "";
-        for(Package pack: getPackages()){
+        for (Package pack: getPackages()) {
             l += pack.shippingLabel();
         }
 

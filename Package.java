@@ -127,7 +127,7 @@ public class Package {
                 destination.getAddress() + "\n" +
                 destination.getCity() + ", " + destination.getState() + ", " + destination.getZipCode() + "\n" +
                 String.format("Weight:%13s", df.format(weight)) + "\n" +
-                String.format("Price:%14s", fmt.format(price))+ "\n" +
+                String.format("Price:%14s", fmt.format(price)) + "\n" +
                 "Product:" + product + "\n" +
                 "====================" + "\n";
 

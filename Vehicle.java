@@ -32,19 +32,19 @@ public class Vehicle implements Profitable {
      * @param maxWeight    maximum weight of vehicle
      */
     //============================================================================
-    public Vehicle (String licensePlate, double maxWeight) {
+    public Vehicle(String licensePlate, double maxWeight) {
         this.maxWeight = maxWeight;
         this.licensePlate = licensePlate;
     }
     //============================================================================
 
 
-    public double getProfit(){
+    public double getProfit() {
         return 1;
     }
 
 
-    public String report(){
+    public String report() {
         String x = "";
         return x;
     }
@@ -169,7 +169,7 @@ public class Vehicle implements Profitable {
      */
     public boolean addPackage(Package pkg) {
 
-        if(maxWeight >= currentWeight + pkg.getWeight()){
+        if (maxWeight >= currentWeight + pkg.getWeight()) {
             packages.add(pkg);
             currentWeight += pkg.getWeight();
             return true;
@@ -183,7 +183,7 @@ public class Vehicle implements Profitable {
      * Clears vehicle of packages and resets its weight to zero
      */
     public void empty() {
-        for (int x = packages.size(); x > 0; x--){
+        for (int x = packages.size(); x > 0; x--) {
             packages.remove(x);
         }
         currentWeight = 0;
@@ -197,11 +197,7 @@ public class Vehicle implements Profitable {
      * @return whether or not Vehicle is full
      */
     public boolean isFull() {
-        if(maxWeight == currentWeight){
-            return true;
-        } else {
-            return false;
-        }
+        return maxWeight == currentWeight;
     }
 
 
@@ -227,7 +223,7 @@ public class Vehicle implements Profitable {
 
         ArrayList<Integer> x = new ArrayList<>();
 
-        for(Package pack : warehousePackages) {
+        for (Package pack : warehousePackages) {
             int packZip = pack.getDestination().getZipCode();
             int zip = Math.abs(zipDest - packZip);
             x.add(zip);
@@ -237,7 +233,7 @@ public class Vehicle implements Profitable {
         ArrayList<Package> sending = new ArrayList<>();
         int index = 0;
 
-        for (int i = 0; i < warehousePackages.size(); i++){
+        for (int i = 0; i < warehousePackages.size(); i++) {
 
 
             for (int y = 0; y < x.size(); y++) {
@@ -252,13 +248,13 @@ public class Vehicle implements Profitable {
 
             int tempIndex = index;
             boolean stupid = true;
-            for (int y = 0; y < x.size();y++) {
+            for (int y = 0; y < x.size(); y++) {
                 if (x.get(y) > index && stupid == true) {
                     stupid = false;
                     tempIndex = x.get(y);
 
                 } else if (x.get(y) > index) {
-                    if(x.get(y) < tempIndex){
+                    if (x.get(y) < tempIndex) {
                         tempIndex = x.get(y);
                     }
                 }
