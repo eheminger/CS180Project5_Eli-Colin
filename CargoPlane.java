@@ -1,11 +1,11 @@
 import java.util.ArrayList;
 /**
- * @author      Eli H.  && Colin V.
+ * @author      Eli H.  && Colin Vinarcik
  * @version     1.29
  * @since       12/8/2028
  */
 public class CargoPlane extends Vehicle {
-    final double gasRate = 2.33;
+    final double GAS_RATE = 2.33;
 
     /**
      * Default Constructor
@@ -37,61 +37,26 @@ public class CargoPlane extends Vehicle {
      */
     @Override
     public void fill(ArrayList<Package> warehousePackages) {
-
-
-        ArrayList<Integer> x = new ArrayList<>();
-
-        for (Package pack : warehousePackages) {
-            int packZip = pack.getDestination().getZipCode();
-            int zip = Math.abs(getZipDest() - packZip);
-            x.add(zip);
-        }
-
-
-        ArrayList<Package> sending = new ArrayList<>();
-        int index = 10;
-
-        for (int i = 0; i < warehousePackages.size(); i++) {
-
-
-            for (int y = 0; y < x.size(); y++) {
-                if (x.get(y) <= index) {
-                    if (warehousePackages.get(y).getWeight() + getCurrentWeight() <= getMaxWeight()) {
-                        addPackage(warehousePackages.get(y));
-                        sending.add(warehousePackages.get(y));
+        int packageTracker = 0;
+        int increment = 0;
+        while (true) {
+            for (Package pack: warehousePackages) {
+                if (Math.abs(pack.getDestination().getZipCode() - getZipDest()) >= increment &&
+                        Math.abs(pack.getDestination().getZipCode() - getZipDest()) <= increment + 10) {
+                    packageTracker++;
+                    if (pack.getWeight() + getCurrentWeight() <= getMaxWeight() && !getPackages().contains(pack)) {
+                        addPackage(pack);
                     }
                 }
             }
-
-
-            int tempIndex = index;
-            boolean stupid = true;
-            for (int y = 0; y < x.size(); y++) {
-                if (x.get(y) > index && stupid == true) {
-                    stupid = false;
-                    tempIndex = x.get(y);
-                } else if (x.get(y) > index) {
-                    if (x.get(y) < tempIndex) {
-                        tempIndex = x.get(y);
-                    }
-                }
-            }
-            int tens = (tempIndex / 10) * 10;
-
-            index = tens;
-
+            increment += 10;
             if (isFull()) {
                 break;
             }
-            if (getPackages().size() == warehousePackages.size()) {
+            if (packageTracker == warehousePackages.size()) {
                 break;
             }
-
-
-            System.out.print("hi");
         }
-
-
     }
 
     /*
@@ -108,45 +73,17 @@ public class CargoPlane extends Vehicle {
      */
     @Override
     public double getProfit() {
-        /*double y = 0;
-        int distance = 1;
-
-        ArrayList<Integer> x = new ArrayList<>();
-
-        for (Package pack : getPackages()) {
-            int packZip = pack.getDestination().getZipCode();
-            int zip = Math.abs(getZipDest() - packZip);
-            x.add(zip);
-        }
-
-        for (int lul = 0; lul < x.size(); lul++) {
-            y += getPackages().get(lul).getPrice();
-            int zip = x.get(lul);
-            if (distance < Math.abs(zip)) {
-                distance = Math.abs(zip);
-
-                int tens = (distance / 10);
-                if (distance % 10 == 0) {
-
-                } else {
-                    tens += 10;
-                }
-                distance = tens;
-            }
-        }
-        */
         double x = 0;
-        int  distance = 0;
-
-        for (Package pack : getPackages()) {
+        double distance = 0;
+        for(Package pack : getPackages()) {
             x += pack.getPrice();
             int zip = getZipDest() - pack.getDestination().getZipCode();
-            if (distance < Math.abs(zip)) {
+            if(distance < Math.abs(zip)){
                 distance = Math.abs(zip);
             }
         }
 
-        return x - (gasRate * distance);
+        return x - (GAS_RATE * distance);
 
     }
 
@@ -171,7 +108,7 @@ public class CargoPlane extends Vehicle {
                 getMaxWeight() + "\nNet Profit: " + getProfit()
                 + "\n==============================\n";
         String l  = "";
-        for (Package pack: getPackages()) {
+        for(Package pack: getPackages()){
             l += pack.shippingLabel();
         }
 
